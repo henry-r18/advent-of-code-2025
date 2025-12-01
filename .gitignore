@@ -1,3 +1,5 @@
+challenge_input.*
+### BOILERPLATE
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -6,7 +6,7 @@ Provided a set of instructions for how many clicks to turn left or right
 the dial is in position 0.
 """
 
-ROTATION_SEQUENCE_FILE = "rotation_sequence.txt"
+ROTATION_SEQUENCE_FILE = "challenge_input.txt"
 # Values defined in challenge
 STARTING_POSITION = 50
 DIAL_TICK_COUNT = 100  # There are 100 ticks on the dial (0-99)
@@ -37,13 +37,14 @@ def rotate_dial(
     starting_position: int,
     increment: int,
     tick_count: int = DIAL_TICK_COUNT,
-):
+) -> int:
     """Given a starting position on the dial,
     return the new position after rotating the dial.
 
     :param starting_position: The starting position on the dial.
     :param increment: The increment to apply using modulus operator.
     :param tick_count: The number of ticks on the dial.
+    :return: The new position after rotating the dial.
     """
     # The remainder of the incremented position divided by the tick count
     # (calculated using the modulo operator) yields the final position after turning the dial.
@@ -59,6 +60,7 @@ def execute_rotation_sequence(
 
     :param starting_position: Starting position for the dial.
     :param rotation_sequence: Increments to apply to dial.
+    :return: The list of positions after each rotation.
     """
     rotation_results = []
     for increment in rotation_sequence:

@@ -6,13 +6,10 @@ Provided a set of instructions for how many clicks to turn left or right
 the dial is in position 0.
 """
 
-from pathlib import Path
-from tracemalloc import start
-
 ROTATION_SEQUENCE_FILE = "rotation_sequence.txt"
 # Values defined in challenge
 STARTING_POSITION = 50
-DIAL_TICK_COUNT = 100  # There are 100 ticks on the dial, 0-99
+DIAL_TICK_COUNT = 100  # There are 100 ticks on the dial (0-99)
 
 
 def load_rotation_sequence(file: str) -> list[int]:
@@ -42,40 +39,43 @@ def rotate_dial(
     tick_count: int = DIAL_TICK_COUNT,
 ):
     """Given a starting position on the dial,
-    return the new position after rotating dial
-    (i.e. using modulus operator for circular indexing)
+    return the new position after rotating the dial.
 
     :param starting_position: The starting position on the dial.
-    :param tick_count: The number of ticks in the dial.
     :param increment: The increment to apply using modulus operator.
+    :param tick_count: The number of ticks on the dial.
     """
-    # The remainder of the incremented position divided by the tick count,
-    # given by the modulo operator, equals the final position after turning the dial.
+    # The remainder of the incremented position divided by the tick count
+    # (calculated using the modulo operator) yields the final position after turning the dial.
     return (starting_position + increment) % tick_count
 
 
-def apply_sequence(starting_position: int, rotation_sequence: list[int]):
-    """Applies rotation sequence to dial from starting position.
+def execute_rotation_sequence(
+    starting_position: int,
+    rotation_sequence: list[int],
+) -> list[int]:
+    """Executes the rotation sequence listed in the input file,
+    from the given starting position.
 
     :param starting_position: Starting position for the dial.
     :param rotation_sequence: Increments to apply to dial.
     """
-    current_position = starting_position
+    rotation_results = []
     for increment in rotation_sequence:
-        current_position += increment
+        new_position = rotate_dial(starting_position, increment)
+        rotation_results.append(new_position)
+        starting_position = new_position
+    return rotation_results
 
 
 def main():
     """Entry-point for program."""
     try:
         rotation_sequence = load_rotation_sequence(ROTATION_SEQUENCE_FILE)
-
-        starting_position = STARTING_POSITION
-        rotation_results = []
-        for increment in rotation_sequence:
-            new_position = rotate_dial(starting_position, increment)
-            rotation_results.append(new_position)
-            starting_position = new_position
+        rotation_results = execute_rotation_sequence(
+            starting_position=STARTING_POSITION, rotation_sequence=rotation_sequence
+        )
+        # The challenge asks for the number of times the dial is in position 0``
         zero_count = rotation_results.count(0)
         print(zero_count)
 

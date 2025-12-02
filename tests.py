@@ -1,0 +1,73 @@
+from unittest import TestCase
+from day_one.main import execute_rotation_sequence
+from day_two.main import parse_id_range, find_invalid_ids
+
+
+class DayOneTestCase(TestCase):
+    def test_rotate_dial(self):
+        # This test sequence comes from the challenge specs
+        test_rotation_sequence = [-68, -30, 48, -5, 60, -55, -1, -99, 14, -82]
+        expected_result = [82, 52, 0, 95, 55, 0, 99, 0, 14, 32]
+
+        starting_position = 50
+        rotation_results, total_times_index_at_zero = execute_rotation_sequence(
+            starting_position, test_rotation_sequence
+        )
+        self.assertListEqual(rotation_results, expected_result)
+
+    def test_large_numbers(self):
+        test_rotation_sequence = [100, 150, 210]
+        expected_result = [50, 0, 10]
+        starting_position = 50
+        rotation_results, total_times_index_at_zero = execute_rotation_sequence(
+            starting_position, test_rotation_sequence
+        )
+        self.assertListEqual(rotation_results, expected_result)
+
+    def test_count_times_past_zero(self):
+        # These values derived from challenge
+        test_rotation_sequence = [-68, -30, 48, -5, 60, -55, -1, -99, 14, -82]
+        expected_result = [
+            82,
+            52,
+            0,
+            95,
+            55,
+            0,
+            99,
+            0,
+            14,
+            32,
+        ]
+
+        starting_position = 50
+        rotation_results, total_times_index_at_zero = execute_rotation_sequence(
+            starting_position, test_rotation_sequence
+        )
+        self.assertListEqual(rotation_results, expected_result)
+        self.assertEqual(
+            total_times_index_at_zero, 6
+        )  # Expected result taken from challenge
+
+
+class DayTwoTestCase(TestCase):
+    def setUp(self) -> None:
+        test_input = [
+            "11-22",
+            "95-115",
+            "998-1012",
+            "1188511880-1188511890",
+            "222220-222224",
+            "1698522-1698528",
+            "446443-446449",
+            "38593856-38593862",
+        ]
+
+        self.test_id_ranges = [parse_id_range(range_str) for range_str in test_input]
+
+    def test_find_invalid_ids(self):
+        all_invalid_ids = []
+        for id_range in self.test_id_ranges:
+            invalid_ids = find_invalid_ids(id_range)
+            all_invalid_ids.extend(invalid_ids)
+        print(sum(all_invalid_ids))

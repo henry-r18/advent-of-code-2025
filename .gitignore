@@ -1,4 +1,6 @@
-challenge_input.*
+### AoC inputs
+*_input.*
+
 ### BOILERPLATE
 # Byte-compiled / optimized / DLL files
 __pycache__/

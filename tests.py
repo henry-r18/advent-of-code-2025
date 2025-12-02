@@ -1,6 +1,10 @@
 from unittest import TestCase
 from day_one.main import execute_rotation_sequence
-from day_two.main import parse_id_range, find_invalid_ids
+from day_two.main import (
+    parse_id_range,
+    find_invalid_ids_part_one,
+    find_invalid_ids_part_two,
+)
 
 
 class DayOneTestCase(TestCase):
@@ -61,13 +65,23 @@ class DayTwoTestCase(TestCase):
             "1698522-1698528",
             "446443-446449",
             "38593856-38593862",
+            "565653-565659",
+            "824824821-824824827",
+            "2121212118-2121212124",
         ]
 
         self.test_id_ranges = [parse_id_range(range_str) for range_str in test_input]
 
-    def test_find_invalid_ids(self):
+    def test_find_invalid_ids_part_one(self):
         all_invalid_ids = []
         for id_range in self.test_id_ranges:
-            invalid_ids = find_invalid_ids(id_range)
+            invalid_ids = find_invalid_ids_part_one(id_range)
             all_invalid_ids.extend(invalid_ids)
+        print(sum(all_invalid_ids))
+
+    def test_find_invalid_ids_part_two(self):
+        all_invalid_ids = []
+        for id_range in self.test_id_ranges:
+            all_invalid_ids.extend(find_invalid_ids_part_two(id_range))
+        print(all_invalid_ids)
         print(sum(all_invalid_ids))

@@ -37,49 +37,72 @@ def rotate_dial(
     starting_position: int,
     increment: int,
     tick_count: int = DIAL_TICK_COUNT,
-) -> int:
+) -> tuple[int, int]:
     """Given a starting position on the dial,
     return the new position after rotating the dial.
 
     :param starting_position: The starting position on the dial.
     :param increment: The increment to apply using modulus operator.
     :param tick_count: The number of ticks on the dial.
-    :return: The new position after rotating the dial.
+    :return: The new position after rotating the dial,
+        and the number of times the dial passes or lands on 0 during this turn.
     """
-    # The remainder of the incremented position divided by the tick count
-    # (calculated using the modulo operator) yields the final position after turning the dial.
-    return (starting_position + increment) % tick_count
+    times_position_at_zero = 0
+
+    # If the increment is negative,
+    # use the modulus of the difference between the tick count and the starting position,
+    # plus the absolute value of the increment, divided by the tick count
+    # to calculate the number of times the dial passes or lands on 0.
+    # This avoids the issue of negative increments larger than the tick count counting twice,
+    # when they should only count once. Consider the case starting at 0 and incrementing by -110
+    # to see why the calculation for positive increments is not sufficient.
+    if increment < 0:
+        times_position_at_zero += (
+            (tick_count - starting_position) % tick_count + abs(increment)
+        ) // tick_count
+    else:
+        times_position_at_zero += (starting_position + increment) // tick_count
+    # Calculate the new position after rotating the dial
+    # by taking the modulus of the sum of the starting position and the increment.
+    new_position = (starting_position + increment) % tick_count
+
+    return new_position, times_position_at_zero
 
 
 def execute_rotation_sequence(
     starting_position: int,
     rotation_sequence: list[int],
-) -> list[int]:
+) -> tuple[list[int], int]:
     """Executes the rotation sequence listed in the input file,
     from the given starting position.
 
     :param starting_position: Starting position for the dial.
     :param rotation_sequence: Increments to apply to dial.
-    :return: The list of positions after each rotation.
+    :return: The list of positions after each rotation,
+        and the total number of times the dial passes or lands on 0 during the sequence.
     """
     rotation_results = []
+    total_times_position_at_zero = 0
     for increment in rotation_sequence:
-        new_position = rotate_dial(starting_position, increment)
+        new_position, times_position_at_zero = rotate_dial(starting_position, increment)
         rotation_results.append(new_position)
         starting_position = new_position
-    return rotation_results
+        total_times_position_at_zero += times_position_at_zero
+    return rotation_results, total_times_position_at_zero
 
 
 def main():
     """Entry-point for program."""
     try:
         rotation_sequence = load_rotation_sequence(ROTATION_SEQUENCE_FILE)
-        rotation_results = execute_rotation_sequence(
+        rotation_results, total_times_index_at_zero = execute_rotation_sequence(
             starting_position=STARTING_POSITION, rotation_sequence=rotation_sequence
         )
-        # The challenge asks for the number of times the dial is in position 0``
+        # Part One asks for count of zeros in rotation results
         zero_count = rotation_results.count(0)
-        print(zero_count)
+        print(f"Part One answer: {zero_count}")
+        # Part Two asks for the total number of times the dial hits position 0
+        print(f"Part Two answer: {total_times_index_at_zero}")
 
     except ValueError as e:
         print(f"Input values invalid: {e}")

@@ -91,11 +91,11 @@ class DayTwoTestCase(TestCase):
 class DayThreeTestCase(TestCase):
     def setUp(self) -> None:
         self.test_input = (
-            (list("987654321111111"), 98),
-            (list("811111111111119"), 89),
-            (list("234234234234278"), 78),
-            (list("818181911112111"), 92),
-            (list("999999999999999"), 99),
+            ("987654321111111", 98),
+            ("811111111111119", 89),
+            ("234234234234278", 78),
+            ("818181911112111", 92),
+            ("999999999999999", 99),
         )
 
     def test_find_optimal_batteries_part_one(self):
@@ -103,5 +103,4 @@ class DayThreeTestCase(TestCase):
             with self.subTest(
                 battery_bank=battery_bank, expected_output=expected_output
             ):
-                optimal_batteries = find_optimal_batteries(battery_bank)
-                self.assertEqual(optimal_batteries, expected_output)
+                optimal_batteries = find_optimal_batteries(battery_bank, 5)

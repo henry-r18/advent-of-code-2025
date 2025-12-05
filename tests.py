@@ -7,7 +7,7 @@ from day_two.main import (
 )
 from day_three.main import find_optimal_batteries
 from day_four.main import find_accessible_rolls
-from day_five.main import find_fresh_ids
+from day_five.main import find_fresh_ids_part_one, find_fresh_ids_part_two
 
 
 class DayOneTestCase(TestCase):
@@ -152,7 +152,12 @@ class DayFiveTestCase(TestCase):
         ], [int(id_str) for id_str in id_strs]
         self.test_input = (ranges, ids)
 
-    def test_find_fresh_ids(self):
+    def test_find_fresh_ids_part_one(self):
         ranges, ids = self.test_input
-        fresh_ids_count = find_fresh_ids(ranges, ids)
+        fresh_ids_count = find_fresh_ids_part_one(ranges, ids)
+        print(fresh_ids_count)
+
+    def test_find_fresh_ids_part_two(self):
+        ranges, _ = self.test_input
+        fresh_ids_count = find_fresh_ids_part_two(ranges)
         print(fresh_ids_count)

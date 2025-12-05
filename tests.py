@@ -6,6 +6,7 @@ from day_two.main import (
     find_invalid_ids_part_two,
 )
 from day_three.main import find_optimal_batteries
+from day_four.main import find_accessible_rolls
 
 
 class DayOneTestCase(TestCase):
@@ -104,3 +105,24 @@ class DayThreeTestCase(TestCase):
                 battery_bank=battery_bank, expected_output=expected_output
             ):
                 optimal_batteries = find_optimal_batteries(battery_bank, 5)
+
+
+class DayFourTestCase(TestCase):
+    def setUp(self) -> None:
+        input_text = """..@@.@@@@.
+@@@.@.@.@@
+@@@@@.@.@@
+@.@@@@..@.
+@@.@@@@.@@
+.@@@@@@@.@
+.@.@.@.@@@
+@.@@@.@@@@
+.@@@@@@@@.
+@.@.@@@.@."""
+
+        self.test_input = [list(line) for line in input_text.split("\n")]
+
+    def test_find_accessible_rolls(self):
+        shelves = self.test_input
+        total_accessible_rolls = find_accessible_rolls(shelves)
+        print(total_accessible_rolls)

@@ -7,6 +7,7 @@ from day_two.main import (
 )
 from day_three.main import find_optimal_batteries
 from day_four.main import find_accessible_rolls
+from day_five.main import find_fresh_ids
 
 
 class DayOneTestCase(TestCase):
@@ -126,3 +127,32 @@ class DayFourTestCase(TestCase):
         shelves = self.test_input
         total_accessible_rolls = find_accessible_rolls(shelves)
         print(total_accessible_rolls)
+
+
+class DayFiveTestCase(TestCase):
+
+    def setUp(self) -> None:
+        input_text = """3-5
+10-14
+16-20
+12-18
+
+1
+5
+8
+11
+17
+32"""
+        # range(int(start), int(stop) + 1)  # +1 makes ranges inclusive
+        sections = input_text.split("\n\n")
+        range_strs, id_strs = [section.splitlines() for section in sections]
+        range_bounds = [range_str.split("-") for range_str in range_strs]
+        ranges, ids = [
+            range(int(start), int(stop) + 1) for start, stop in range_bounds
+        ], [int(id_str) for id_str in id_strs]
+        self.test_input = (ranges, ids)
+
+    def test_find_fresh_ids(self):
+        ranges, ids = self.test_input
+        fresh_ids_count = find_fresh_ids(ranges, ids)
+        print(fresh_ids_count)

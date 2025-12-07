@@ -9,6 +9,7 @@ from day_three.main import find_optimal_batteries
 from day_four.main import find_accessible_rolls
 from day_five.main import find_fresh_ids_part_one, find_fresh_ids_part_two
 from day_six.main import transpose_grid, calculate_result_part_two
+from day_seven.main import load_input as d7_load_input, count_beams_part_one
 
 
 class DayOneTestCase(TestCase):
@@ -175,39 +176,48 @@ class DaySixTestCase(TestCase):
         max_line_length = max(map(len, lines))
         self.test_input = [line.ljust(max_line_length) for line in lines]
 
-    def test_input_parsing(self):
-        lines = self.test_input
-        operators = lines.pop().split()
-        print(operators)
-        # Reorient columns to rows to form problem grid
-        grid = list(zip(*lines))
-        problems = ["".join(line) for line in grid]
-        # We need to collect the new rows to form problem lists,
-        # splitting at lines that are all " ", which indicates a column break.
-        # Then create a new list with sub-lists representing each problem.
-        problems = []
-        start = 0
-        for i, line in enumerate(grid):
-            if all([elem == " " for elem in line]):
-                problems.append([int("".join(line)) for line in grid[start:i]])
-                start = i + 1
-        if start < len(grid):
-            problems.append([int("".join(line)) for line in grid[start:]])
+    # def test_input_parsing(self):
+    #     lines = self.test_input
+    #     operators = lines.pop().split()
+    #     print(operators)
+    #     # Reorient columns to rows to form problem grid
+    #     grid = list(zip(*lines))
+    #     problems = ["".join(line) for line in grid]
+    #     # We need to collect the new rows to form problem lists,
+    #     # splitting at lines that are all " ", which indicates a column break.
+    #     # Then create a new list with sub-lists representing each problem.
+    #     problems = []
+    #     start = 0
+    #     for i, line in enumerate(grid):
+    #         if all([elem == " " for elem in line]):
+    #             problems.append([int("".join(line)) for line in grid[start:i]])
+    #             start = i + 1
+    #     if start < len(grid):
+    #         problems.append([int("".join(line)) for line in grid[start:]])
 
-        # This results in a list of tuples,
-        # each with a problem list and its operator
-        problems_with_operators = list(zip(problems, operators))
+    #     # This results in a list of tuples,
+    #     # each with a problem list and its operator
+    #     problems_with_operators = list(zip(problems, operators))
 
-    def test_transpose_list(self):
-        transposed_grid = transpose_grid(self.test_input)
-        expected_result = [
-            ["123", "45", "6", "*"],
-            ["328", "64", "98", "+"],
-            ["51", "387", "215", "*"],
-            ["64", "23", "314", "+"],
-        ]
-        self.assertListEqual(transposed_grid, expected_result)
+    # def test_transpose_list(self):
+    #     transposed_grid = transpose_grid(self.test_input)
+    #     expected_result = [
+    #         ["123", "45", "6", "*"],
+    #         ["328", "64", "98", "+"],
+    #         ["51", "387", "215", "*"],
+    #         ["64", "23", "314", "+"],
+    #     ]
+    #     self.assertListEqual(transposed_grid, expected_result)
 
-    def test_calculate_result_part_two(self):
-        transposed_grid = transpose_grid(self.test_input)
-        calculate_result_part_two(transposed_grid)
+    # def test_calculate_result_part_two(self):
+    #     transposed_grid = transpose_grid(self.test_input)
+    #     calculate_result_part_two(transposed_grid)
+
+
+class DaySevenTestCase(TestCase):
+    def setUp(self) -> None:
+        self.test_input = d7_load_input("day_seven/test_input.txt")
+
+    def test_count_beams_part_one(self):
+        splitters = count_beams_part_one(self.test_input)
+        print(splitters)

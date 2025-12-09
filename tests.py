@@ -1,15 +1,15 @@
 from unittest import TestCase
-from day_one.main import execute_rotation_sequence
-from day_two.main import (
+from day_01.main import execute_rotation_sequence
+from day_02.main import (
     parse_id_range,
     find_invalid_ids_part_one,
     find_invalid_ids_part_two,
 )
-from day_three.main import find_optimal_batteries
-from day_four.main import find_accessible_rolls
-from day_five.main import find_fresh_ids_part_one, find_fresh_ids_part_two
-from day_six.main import transpose_grid, calculate_result_part_two
-from day_seven.main import load_input as d7_load_input, count_beams_part_one
+from day_03.main import find_optimal_batteries
+from day_04.main import find_accessible_rolls
+from day_05.main import find_fresh_ids_part_one, find_fresh_ids_part_two
+from day_06.main import transpose_grid, calculate_result_part_two
+from day_07.main import load_input as d7_load_input, count_beams_part_one
 
 
 class DayOneTestCase(TestCase):
